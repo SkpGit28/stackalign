@@ -4,14 +4,19 @@ import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useWizard } from "@/context/WizardContext";
 import { libraries } from "@/data/libraries";
-import { calculateTier } from "@/lib/scoring";
 import { UserConstraints, SpeedLevel, AnimationLevel } from "@/types";
 import ResultCard from "@/components/results/ResultCard";
 import ContextActions from "@/components/results/ContextActions";
 import SafetyToggle from "@/components/results/SafetyToggle";
 import Link from "next/link";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft, Sparkles, Info, ChevronDown } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion";
 
 function ResultContent() {
     const router = useRouter();
@@ -35,14 +40,9 @@ function ResultContent() {
         aiReliance: (searchParams.get("aiReliance") as "manual" | "ai") || "manual",
     };
 
-    // Calculate tiers for all libraries
-    const tieredLibraries = libraries.map((lib) => ({
-        ...lib,
-        tier: calculateTier(lib, constraints),
-    }));
-
-    // Filter out Tier C if using AI 100%
-    const filteredLibraries = tieredLibraries.filter(
+    // Filter libraries based on constraints
+    // Libraries now have preassigned tiers, we just filter them
+    const filteredLibraries = libraries.filter(
         (lib) => !(constraints.aiReliance === "ai" && lib.tier === "C")
     );
 
@@ -58,10 +58,10 @@ function ResultContent() {
     const topTierLibraries = [...grouped.S, ...grouped.A];
 
     return (
-        <main className="min-h-screen bg-slate-950 p-6 md:p-12">
+        <main className="min-h-screen bg-slate-950 p-6 md:p-12 pb-20">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
-                <div className="mb-8 flex items-center justify-between">
+                <div className="mb-8 flex flex-col md:flex-row items-start md:items-center md:justify-between gap-4">
                     <div className="flex items-center gap-4">
                         <Link
                             href="/wizard"
@@ -83,6 +83,21 @@ function ResultContent() {
                 </div>
 
                 <ContextActions libraries={topTierLibraries} />
+
+                {/* Methodology Disclaimer */}
+                <div className="bg-blue-950/20 border border-blue-500/30 rounded-lg p-3 md:p-4 mb-8">
+                    <div className="flex items-start gap-3">
+                        <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                        <div>
+                            <h3 className="text-xs md:text-sm font-bold text-blue-100 mb-1">How StackAlign Classifies Risk</h3>
+                            <p className="text-xs text-blue-200/80 leading-relaxed">
+                                Tiers are based on how consistently LLMs generate correct code for a library.
+                                This is a measure of <strong>AI Reliability</strong>, not <strong>Engineering Merit</strong>.
+                                A "High Risk" rating indicates AI frequently hallucinates syntax, NOT that the library is poorly designed.
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
                 <div className="space-y-12">
                     {/* HERO STACK (Tier S) */}
@@ -123,47 +138,93 @@ function ResultContent() {
                         )}
                     </section>
 
-                    {/* Tier A - STANDARD */}
-                    {grouped.A.length > 0 && (
-                        <section>
-                            <h2 className="text-lg font-bold text-slate-300 mb-4 flex items-center gap-2">
-                                ✅ Reliable Alternatives
-                            </h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {grouped.A.map((lib) => (
-                                    <ResultCard key={lib.id} library={lib} tier="A" variant="standard" />
-                                ))}
-                            </div>
-                        </section>
-                    )}
+                    {/* Collapsible Tier Sections */}
+                    <Accordion
+                        type="multiple"
+                        className="space-y-4"
+                        onValueChange={(values) => {
+                            // Auto-scroll to the last opened section
+                            if (values.length > 0) {
+                                const lastValue = values[values.length - 1];
+                                setTimeout(() => {
+                                    const element = document.querySelector(`[data-value="${lastValue}"]`);
+                                    if (element) {
+                                        element.scrollIntoView({
+                                            behavior: 'smooth',
+                                            block: 'start',
+                                            inline: 'nearest'
+                                        });
+                                    }
+                                }, 100);
+                            }
+                        }}
+                    >
+                        {/* Tier A - Reliable Alternatives */}
+                        {grouped.A.length > 0 && (
+                            <AccordionItem value="tier-a" data-value="tier-a" className="border border-blue-500/20 rounded-xl bg-blue-950/10 overflow-hidden">
+                                <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-blue-950/20 transition-colors">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-2 h-2 rounded-full bg-blue-400" />
+                                        <h2 className="text-lg font-bold text-blue-100">
+                                            ✅ Reliable Alternatives
+                                        </h2>
+                                        <span className="text-sm text-blue-300/60 font-mono">({grouped.A.length})</span>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="px-6 pb-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                                        {grouped.A.map((lib) => (
+                                            <ResultCard key={lib.id} library={lib} tier="A" variant="standard" />
+                                        ))}
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
+                        )}
 
-                    {/* Tier B - COMPACT */}
-                    {grouped.B.length > 0 && (
-                        <section>
-                            <h2 className="text-lg font-bold text-slate-400 mb-4 flex items-center gap-2">
-                                ⚠️ Use with Caution
-                            </h2>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                {grouped.B.map((lib) => (
-                                    <ResultCard key={lib.id} library={lib} tier="B" variant="compact" />
-                                ))}
-                            </div>
-                        </section>
-                    )}
+                        {/* Tier B - Use with Caution */}
+                        {grouped.B.length > 0 && (
+                            <AccordionItem value="tier-b" data-value="tier-b" className="border border-orange-500/20 rounded-xl bg-orange-950/10 overflow-hidden">
+                                <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-orange-950/20 transition-colors">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-2 h-2 rounded-full bg-orange-400" />
+                                        <h2 className="text-lg font-bold text-orange-100">
+                                            ⚠️ Use with Caution
+                                        </h2>
+                                        <span className="text-sm text-orange-300/60 font-mono">({grouped.B.length})</span>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="px-6 pb-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+                                        {grouped.B.map((lib) => (
+                                            <ResultCard key={lib.id} library={lib} tier="B" variant="compact" />
+                                        ))}
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
+                        )}
 
-                    {/* Tier C - COMPACT (Only show if not AI mode) */}
-                    {grouped.C.length > 0 && constraints.aiReliance !== 'ai' && (
-                        <section>
-                            <h2 className="text-lg font-bold text-slate-400 mb-4 flex items-center gap-2">
-                                ☢️ Experimental
-                            </h2>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                {grouped.C.map((lib) => (
-                                    <ResultCard key={lib.id} library={lib} tier="C" variant="compact" />
-                                ))}
-                            </div>
-                        </section>
-                    )}
+                        {/* Tier C - Experimental (Only show if not AI mode) */}
+                        {grouped.C.length > 0 && constraints.aiReliance !== 'ai' && (
+                            <AccordionItem value="tier-c" data-value="tier-c" className="border border-red-500/20 rounded-xl bg-red-950/10 overflow-hidden">
+                                <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-red-950/20 transition-colors">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-2 h-2 rounded-full bg-red-400" />
+                                        <h2 className="text-lg font-bold text-red-100">
+                                            ☢️ Experimental
+                                        </h2>
+                                        <span className="text-sm text-red-300/60 font-mono">({grouped.C.length})</span>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="px-6 pb-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+                                        {grouped.C.map((lib) => (
+                                            <ResultCard key={lib.id} library={lib} tier="C" variant="compact" />
+                                        ))}
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
+                        )}
+                    </Accordion>
                 </div>
             </div>
         </main>
