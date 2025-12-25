@@ -9,45 +9,29 @@ import { WizardProvider } from "@/context/WizardContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: {
-        default: "StackAlign | Smart Tech Stack Generator",
-        template: "%s | StackAlign",
-    },
-    description: "Stop guessing your tech stack. Get AI-powered, context-aware architectural recommendations for your next project.",
-    keywords: ["tech stack", "web development", "Next.js", "AI", "architecture", "developer tools"],
-    authors: [{ name: "Sushant Kumar", url: "https://stack-align.vercel.app" }],
-    creator: "Sushant Kumar",
+  title: {
+    default: "StackAlign | Build Your Perfect Next.js Tech Stack in Seconds",
+    template: "%s | StackAlign",
+  },
+  description: "Stop guessing your architecture. Generate a production-ready Next.js tech stack, context-aware .cursorrules, and project roadmap instantly with StackAlign.",
+  keywords: ["tech stack generator", "Next.js architecture", "web development tools", "AI coding assistant", "cursorrules generator", "frontend best practices"],
+  
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://stack-align.vercel.app",
+    title: "StackAlign | Build Your Perfect Next.js Tech Stack in Seconds",
+    description: "Stop guessing your architecture. Generate a production-ready Next.js tech stack...",
+    siteName: "StackAlign",
+    // REMOVED: images: [...]  <-- Next.js will auto-inject this from your file!
+  },
 
-    // This controls how it looks on social media (Facebook, LinkedIn, Discord)
-    openGraph: {
-        type: "website",
-        locale: "en_US",
-        url: "https://stack-align.vercel.app",
-        title: "StackAlign - Build the Perfect Stack",
-        description: "AI-driven tech stack recommendations for developers. Optimized for performance and scalability.",
-        siteName: "StackAlign",
-        images: [
-            {
-                url: "/opengraph-image.png", // You need to add this image to your public folder!
-                width: 1200,
-                height: 630,
-                alt: "StackAlign Preview",
-            },
-        ],
-    },
-
-    // This controls how it looks on Twitter
-    twitter: {
-        card: "summary_large_image",
-        title: "StackAlign - Build the Perfect Stack",
-        description: "Stop guessing. Start building. AI-powered stack recommendations.",
-        images: ["/opengraph-image.png"], // Same image
-        creator: "@skponpurpose", // Optional: Change to your handle
-    },
-
-    icons: {
-        icon: "/favicon.ico",
-    },
+  twitter: {
+    card: "summary_large_image",
+    title: "StackAlign | Build Your Perfect Next.js Tech Stack",
+    description: "Generate a production-ready Next.js tech stack and .cursorrules instantly.",
+    // REMOVED: images: [...] <-- Next.js handles this too!
+  },
 };
 
 export default function RootLayout({
