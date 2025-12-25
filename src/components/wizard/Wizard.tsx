@@ -20,6 +20,8 @@ import {
 import { cn } from "@/lib/utils";
 import { UserConstraints, SpeedLevel, AnimationLevel } from "@/types";
 
+import { useWizard } from "@/context/WizardContext";
+
 const STEPS = [
     {
         id: "context",
@@ -61,8 +63,8 @@ const STEPS = [
 
 export default function Wizard() {
     const router = useRouter();
+    const { selections, setSelections, setCompleted } = useWizard();
     const [currentStep, setCurrentStep] = useState(0);
-    const [selections, setSelections] = useState<Partial<UserConstraints>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSelect = async (value: string) => {
@@ -77,6 +79,7 @@ export default function Wizard() {
         } else {
             // Final step
             setIsSubmitting(true);
+            setCompleted(true);
 
             // Artificial delay to let the user see the "Strict Mode" badge and selection state
             await new Promise(resolve => setTimeout(resolve, 1500));

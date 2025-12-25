@@ -1,3 +1,8 @@
+"use client";
+
+import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useWizard } from "@/context/WizardContext";
 import { libraries } from "@/data/libraries";
 import { calculateTier } from "@/lib/scoring";
 import { UserConstraints, SpeedLevel, AnimationLevel } from "@/types";
@@ -8,16 +13,26 @@ import Link from "next/link";
 import { ArrowLeft, Sparkles } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
-export default function ResultPage({
-    searchParams,
-}: {
-    searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default function ResultPage() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const { isCompleted } = useWizard();
+
+    useEffect(() => {
+        if (!isCompleted) {
+            router.replace("/wizard");
+        }
+    }, [isCompleted, router]);
+
+    if (!isCompleted) {
+        return null;
+    }
+
     const constraints: UserConstraints = {
-        context: (searchParams.context as string) || "dashboard",
-        speed: (searchParams.speed as SpeedLevel) || "standard",
-        animation: (searchParams.animation as AnimationLevel) || "basic",
-        aiReliance: (searchParams.aiReliance as "manual" | "ai") || "manual",
+        context: (searchParams.get("context") as string) || "dashboard",
+        speed: (searchParams.get("speed") as SpeedLevel) || "standard",
+        animation: (searchParams.get("animation") as AnimationLevel) || "basic",
+        aiReliance: (searchParams.get("aiReliance") as "manual" | "ai") || "manual",
     };
 
     // Calculate tiers for all libraries
