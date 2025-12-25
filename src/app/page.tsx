@@ -8,7 +8,7 @@ export default function Home() {
                 <div className="space-y-4">
                     <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
                         Stop Fighting <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+                        <span className="text-emerald-400">
                             AI Hallucinations.
                         </span>
                     </h1>
