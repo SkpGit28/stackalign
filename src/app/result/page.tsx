@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useWizard } from "@/context/WizardContext";
 import { libraries } from "@/data/libraries";
@@ -13,7 +13,7 @@ import Link from "next/link";
 import { ArrowLeft, Sparkles } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
-export default function ResultPage() {
+function ResultContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { isCompleted } = useWizard();
@@ -167,5 +167,17 @@ export default function ResultPage() {
                 </div>
             </div>
         </main>
+    );
+}
+
+export default function ResultPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+                <div className="text-slate-400 animate-pulse">Loading your stack...</div>
+            </div>
+        }>
+            <ResultContent />
+        </Suspense>
     );
 }
