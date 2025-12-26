@@ -27,6 +27,18 @@ export interface Library {
     bestFor: string;
     worstFor: string;
     killerReason: string;
+    modelCompatibility: {
+        gpt: "Safe" | "Caution" | "Risk";
+        claude: "Safe" | "Caution" | "Risk";
+        gemini: "Safe" | "Caution" | "Risk";
+    };
+    keywords: string[];
+    componentPreviews: Record<string, string>;
+    componentSnippets?: Record<string, string>;
+    sandpackConfig?: {
+        dependencies?: Record<string, string>;
+        externalResources?: string[];
+    };
 }
 
 export const libraries: Library[] = [
@@ -56,7 +68,28 @@ export const libraries: Library[] = [
         },
         bestFor: "Rapid styling with zero bundle size overhead (at runtime).",
         worstFor: "Developers who prefer semantic class names.",
-        killerReason: "LLMs are trained on billions of lines of Tailwind. It is the native language of AI styling."
+        killerReason: "LLMs are trained on billions of lines of Tailwind. It is the native language of AI styling.",
+        modelCompatibility: { gpt: "Safe", claude: "Safe", gemini: "Safe" },
+        keywords: ["styling", "css", "utility", "classes", "responsive", "dark mode", "theme", "design system"],
+        componentPreviews: {
+            "styling": "#06b6d4",
+            "css": "#0ea5e9",
+            "utility": "#3b82f6"
+        },
+        componentSnippets: {
+            "button": `export default function App() {
+  return (
+    <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
+      Click me
+    </button>
+  );
+}`,
+            "input": `export default () => <input className="flex h-10 w-full rounded-md border border-slate-700 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-950 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Email" />`,
+            "card": `export default () => <div className="rounded-xl border border-slate-700 bg-slate-950 text-slate-50 shadow-sm"><div className="flex flex-col space-y-1.5 p-6"><h3 className="font-semibold leading-none tracking-tight">Notifications</h3><p className="text-sm text-slate-400">You have 3 unread messages.</p></div><div className="p-6 pt-0"><button className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-slate-950 bg-slate-50 text-slate-900 hover:bg-slate-50/90 h-10 py-2 px-4 w-full">Mark all as read</button></div></div>`
+        },
+        sandpackConfig: {
+            externalResources: ["https://cdn.tailwindcss.com"]
+        }
     },
     {
         id: "radix-ui",
@@ -81,7 +114,18 @@ export const libraries: Library[] = [
         },
         bestFor: "Headless, accessible interactive components.",
         worstFor: "Quick prototypes needing pre-styled elements.",
-        killerReason: "Rock-solid accessibility and API stability make it easy for AI to implement correctly."
+        killerReason: "Rock-solid accessibility and API stability make it easy for AI to implement correctly.",
+        modelCompatibility: { gpt: "Safe", claude: "Safe", gemini: "Safe" },
+        keywords: ["dropdown", "dialog", "modal", "menu", "select", "tooltip", "popover", "accordion", "tabs", "switch", "checkbox", "radio", "accessible", "headless", "primitives"],
+        componentPreviews: {
+            "dropdown": "#8b5cf6",
+            "dialog": "#a855f7",
+            "modal": "#a855f7",
+            "menu": "#7c3aed",
+            "select": "#6d28d9",
+            "tooltip": "#5b21b6",
+            "popover": "#4c1d95"
+        }
     },
     {
         id: "lucide-react",
@@ -106,7 +150,13 @@ export const libraries: Library[] = [
         },
         bestFor: "Consistent, clean iconography.",
         worstFor: "Projects needing multi-color or complex illustrations.",
-        killerReason: "The de-facto standard for modern React icons, replacing Feather."
+        killerReason: "The de-facto standard for modern React icons, replacing Feather.",
+        modelCompatibility: { gpt: "Safe", claude: "Safe", gemini: "Safe" },
+        keywords: ["icons", "svg", "feather", "ui icons", "interface icons"],
+        componentPreviews: {
+            "icons": "#f59e0b",
+            "svg": "#f97316"
+        }
     },
     {
         id: "date-fns",
@@ -131,7 +181,13 @@ export const libraries: Library[] = [
         },
         bestFor: "Date manipulation without Moment.js bloat.",
         worstFor: "Timezone heavy applications (use date-fns-tz).",
-        killerReason: "Functional, immutable, and modular."
+        killerReason: "Functional, immutable, and modular.",
+        modelCompatibility: { gpt: "Safe", claude: "Safe", gemini: "Safe" },
+        keywords: ["date", "time", "calendar", "datetime", "formatting", "timezone"],
+        componentPreviews: {
+            "date": "#10b981",
+            "calendar": "#059669"
+        }
     },
     {
         id: "clsx",
@@ -156,7 +212,12 @@ export const libraries: Library[] = [
         },
         bestFor: "Constructing className strings conditionally.",
         worstFor: "N/A",
-        killerReason: "Tiny utility essential for modern React."
+        killerReason: "Tiny utility essential for modern React.",
+        modelCompatibility: { gpt: "Safe", claude: "Safe", gemini: "Safe" },
+        keywords: ["utility", "classnames", "conditional", "styling helper"],
+        componentPreviews: {
+            "utility": "#64748b"
+        }
     },
 
     // --- TIER A (Reliable) ---
@@ -183,7 +244,29 @@ export const libraries: Library[] = [
         },
         bestFor: "Beautiful, copy-pasteable component primitives.",
         worstFor: "Projects that need a completely different design system base.",
-        killerReason: "The gold standard for modern Next.js apps. AI knows the structure well."
+        killerReason: "The gold standard for modern Next.js apps. AI knows the structure well.",
+        modelCompatibility: { gpt: "Safe", claude: "Safe", gemini: "Safe" },
+        keywords: ["button", "card", "input", "form", "ui components", "shadcn", "design system", "component library"],
+        componentPreviews: {
+            "button": "#020617",
+            "card": "#0f172a",
+            "input": "#1e293b",
+            "form": "#334155"
+        },
+        componentSnippets: {
+            "button": `export default function App() {
+  return (
+    <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-slate-900 text-slate-50 shadow hover:bg-slate-900/90 h-9 px-4 py-2">
+      Click me
+    </button>
+  );
+}`,
+            "input": `export default () => <input className="flex h-10 w-full rounded-md border border-slate-700 bg-transparent px-3 py-2 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-950 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Email" />`,
+            "card": `export default () => <div className="rounded-xl border border-slate-700 bg-slate-950 text-slate-50 shadow-sm"><div className="flex flex-col space-y-1.5 p-6"><h3 className="font-semibold leading-none tracking-tight">Notifications</h3><p className="text-sm text-slate-400">You have 3 unread messages.</p></div><div className="p-6 pt-0"><button className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-slate-950 bg-slate-50 text-slate-900 hover:bg-slate-50/90 h-10 py-2 px-4 w-full">Mark all as read</button></div></div>`
+        },
+        sandpackConfig: {
+            externalResources: ["https://cdn.tailwindcss.com"]
+        }
     },
     {
         id: "react-hook-form",
@@ -208,7 +291,13 @@ export const libraries: Library[] = [
         },
         bestFor: "Performant forms with easy validation.",
         worstFor: "Extremely simple login forms (overkill).",
-        killerReason: "Standard for React forms, reducing re-renders."
+        killerReason: "Standard for React forms, reducing re-renders.",
+        modelCompatibility: { gpt: "Safe", claude: "Safe", gemini: "Safe" },
+        keywords: ["form", "validation", "input", "register", "submit", "form management"],
+        componentPreviews: {
+            "form": "#ec4899",
+            "input": "#db2777"
+        }
     },
     {
         id: "zod",
@@ -233,7 +322,13 @@ export const libraries: Library[] = [
         },
         bestFor: "Schema validation and TypeScript inference.",
         worstFor: "Runtime-free validation requirements.",
-        killerReason: "TypeScript-first schema declaration."
+        killerReason: "TypeScript-first schema declaration.",
+        modelCompatibility: { gpt: "Safe", claude: "Safe", gemini: "Safe" },
+        keywords: ["validation", "schema", "type-safe", "form validation", "api validation"],
+        componentPreviews: {
+            "validation": "#3b82f6",
+            "schema": "#2563eb"
+        }
     },
     {
         id: "mui",
@@ -258,7 +353,38 @@ export const libraries: Library[] = [
         },
         bestFor: "Enterprise dashboards with dense data.",
         worstFor: "Public-facing marketing sites (heavy bundle).",
-        killerReason: "Massive ecosystem, but easy to bloat."
+        killerReason: "Massive ecosystem, but easy to bloat.",
+        modelCompatibility: { gpt: "Safe", claude: "Safe", gemini: "Safe" },
+        keywords: ["material design", "mui", "button", "table", "data grid", "components", "enterprise"],
+        componentPreviews: {
+            "button": "#1976d2",
+            "table": "#0288d1",
+            "data grid": "#0277bd"
+        },
+        componentSnippets: {
+            "button": `import { ThemeProvider, createTheme, Button } from '@mui/material';
+
+const theme = createTheme();
+
+export default function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <Button variant="contained">
+        Click me
+      </Button>
+    </ThemeProvider>
+  );
+}`,
+            "input": `import { TextField } from '@mui/material'; export default () => <TextField label="Email" variant="outlined" fullWidth sx={{ '& .MuiOutlinedInput-root': { color: 'white', '& fieldset': { borderColor: '#334155' }, '&:hover fieldset': { borderColor: '#94a3b8' } }, '& .MuiInputLabel-root': { color: '#94a3b8' } }} />;`,
+            "card": `import { Card, CardContent, Typography, Button, CardActions } from '@mui/material'; export default () => <Card sx={{ bgcolor: '#020617', border: '1px solid #334155', color: 'white' }}><CardContent><Typography variant="h5" component="div" sx={{ mb: 1.5 }}>Notifications</Typography><Typography variant="body2" color="#94a3b8">You have 3 unread messages.</Typography></CardContent><CardActions><Button size="small" variant="contained" fullWidth sx={{ bgcolor: 'white', color: 'black', '&:hover': { bgcolor: '#e2e8f0' } }}>Mark as read</Button></CardActions></Card>;`
+        },
+        sandpackConfig: {
+            dependencies: {
+                "@mui/material": "latest",
+                "@emotion/react": "latest",
+                "@emotion/styled": "latest"
+            }
+        }
     },
     {
         id: "mantine",
@@ -283,7 +409,58 @@ export const libraries: Library[] = [
         },
         bestFor: "Feature-rich applications needing complex hooks.",
         worstFor: "Minimalist projects.",
-        killerReason: "Excellent hooks library included."
+        killerReason: "Excellent hooks library included.",
+        modelCompatibility: { gpt: "Safe", claude: "Safe", gemini: "Safe" },
+        keywords: ["components", "hooks", "button", "modal", "notification", "form", "mantine"],
+        componentPreviews: {
+            "button": "#228be6",
+            "modal": "#1c7ed6",
+            "notification": "#1971c2"
+        },
+        componentSnippets: {
+            "button": `import { MantineProvider, Button } from '@mantine/core';
+import '@mantine/core/styles.css';
+
+export default function App() {
+  return (
+    <MantineProvider>
+      <Button>Click me</Button>
+    </MantineProvider>
+  );
+}`,
+            "input": `import { MantineProvider, TextInput } from '@mantine/core';
+import '@mantine/core/styles.css';
+
+export default function App() {
+  return (
+    <MantineProvider>
+      <TextInput label="Email" placeholder="Enter email" />
+    </MantineProvider>
+  );
+}`,
+            "card": `import { MantineProvider, Card, Text, Button, Group } from '@mantine/core';
+import '@mantine/core/styles.css';
+
+export default function App() {
+  return (
+    <MantineProvider>
+      <Card shadow="sm" padding="lg" radius="md" withBorder>
+        <Card.Section p="md">
+          <Text fw={500} size="lg">Notifications</Text>
+          <Text size="sm" c="dimmed">You have 3 unread messages.</Text>
+        </Card.Section>
+        <Button fullWidth mt="md" radius="md">Mark as read</Button>
+      </Card>
+    </MantineProvider>
+  );
+}`
+        },
+        sandpackConfig: {
+            dependencies: {
+                "@mantine/core": "latest",
+                "@mantine/hooks": "latest"
+            }
+        }
     },
     {
         id: "zustand",
@@ -308,7 +485,13 @@ export const libraries: Library[] = [
         },
         bestFor: "Global state management without Redux boilerplate.",
         worstFor: "Complex state machines (use XState).",
-        killerReason: "Simple, unopinionated state management."
+        killerReason: "Simple, unopinionated state management.",
+        modelCompatibility: { gpt: "Safe", claude: "Safe", gemini: "Safe" },
+        keywords: ["state", "store", "global state", "state management", "zustand"],
+        componentPreviews: {
+            "state": "#78716c",
+            "store": "#57534e"
+        }
     },
 
     // --- TIER B (Tricky) ---
@@ -335,7 +518,14 @@ export const libraries: Library[] = [
         },
         bestFor: "Complex, physics-based animations.",
         worstFor: "Bundle-size critical applications.",
-        killerReason: "Powerful, but API surface is large and AI can mix versions."
+        killerReason: "Powerful, but API surface is large and AI can mix versions.",
+        modelCompatibility: { gpt: "Caution", claude: "Caution", gemini: "Caution" },
+        keywords: ["animation", "motion", "transition", "gesture", "scroll animation", "framer"],
+        componentPreviews: {
+            "animation": "#e11d48",
+            "motion": "#be123c",
+            "transition": "#9f1239"
+        }
     },
     {
         id: "tanstack-table",
@@ -360,7 +550,14 @@ export const libraries: Library[] = [
         },
         bestFor: "Headless, highly customizable tables.",
         worstFor: "Simple data grids.",
-        killerReason: "v7 vs v8 breaking changes often confuse LLMs."
+        killerReason: "v7 vs v8 breaking changes often confuse LLMs.",
+        modelCompatibility: { gpt: "Caution", claude: "Caution", gemini: "Caution" },
+        keywords: ["table", "data table", "grid", "sorting", "filtering", "pagination"],
+        componentPreviews: {
+            "table": "#6366f1",
+            "data table": "#4f46e5",
+            "grid": "#4338ca"
+        }
     },
     {
         id: "recharts",
@@ -385,7 +582,14 @@ export const libraries: Library[] = [
         },
         bestFor: "Composable React charts.",
         worstFor: "High-performance canvas rendering (thousands of points).",
-        killerReason: "Easy to use, but sometimes buggy responsive behavior."
+        killerReason: "Easy to use, but sometimes buggy responsive behavior.",
+        modelCompatibility: { gpt: "Caution", claude: "Caution", gemini: "Caution" },
+        keywords: ["chart", "graph", "data visualization", "line chart", "bar chart", "pie chart"],
+        componentPreviews: {
+            "chart": "#14b8a6",
+            "graph": "#0d9488",
+            "data visualization": "#0f766e"
+        }
     },
     {
         id: "gsap",
@@ -410,7 +614,13 @@ export const libraries: Library[] = [
         },
         bestFor: "High-performance, complex timelines.",
         worstFor: "Simple UI transitions.",
-        killerReason: "Industry standard for web animation, but imperative nature can be tricky in React."
+        killerReason: "Industry standard for web animation, but imperative nature can be tricky in React.",
+        modelCompatibility: { gpt: "Caution", claude: "Caution", gemini: "Caution" },
+        keywords: ["animation", "timeline", "tween", "scroll trigger", "gsap"],
+        componentPreviews: {
+            "animation": "#84cc16",
+            "timeline": "#65a30d"
+        }
     },
     {
         id: "three-js",
@@ -435,7 +645,13 @@ export const libraries: Library[] = [
         },
         bestFor: "3D experiences in the browser.",
         worstFor: "Standard 2D interfaces.",
-        killerReason: "Complex 3D math and React reconciliation can confuse AI."
+        killerReason: "Complex 3D math and React reconciliation can confuse AI.",
+        modelCompatibility: { gpt: "Caution", claude: "Caution", gemini: "Caution" },
+        keywords: ["3d", "webgl", "three.js", "3d graphics", "canvas"],
+        componentPreviews: {
+            "3d": "#000000",
+            "webgl": "#1a1a1a"
+        }
     },
 
     // --- TIER C (Experimental/High Risk) ---
@@ -462,7 +678,13 @@ export const libraries: Library[] = [
         },
         bestFor: "Building dashboards extremely fast.",
         worstFor: "Custom design requirements.",
-        killerReason: "Newer library, frequent API changes lead to hallucinations."
+        killerReason: "Newer library, frequent API changes lead to hallucinations.",
+        modelCompatibility: { gpt: "Risk", claude: "Risk", gemini: "Risk" },
+        keywords: ["dashboard", "metrics", "kpi", "charts", "analytics"],
+        componentPreviews: {
+            "dashboard": "#f97316",
+            "metrics": "#ea580c"
+        }
     },
     {
         id: "million-js",
@@ -487,7 +709,12 @@ export const libraries: Library[] = [
         },
         bestFor: "Virtual DOM optimization.",
         worstFor: "Projects that don't have performance bottlenecks.",
-        killerReason: "Niche optimization tool, AI often hallucinates usage patterns."
+        killerReason: "Niche optimization tool, AI often hallucinates usage patterns.",
+        modelCompatibility: { gpt: "Risk", claude: "Risk", gemini: "Risk" },
+        keywords: ["performance", "optimization", "virtual dom", "compiler"],
+        componentPreviews: {
+            "performance": "#fbbf24"
+        }
     },
     {
         id: "chakra-ui",
@@ -512,7 +739,34 @@ export const libraries: Library[] = [
         },
         bestFor: "Accessible, modular components.",
         worstFor: "Server Components (RSC) heavy apps (historically).",
-        killerReason: "Transition to RSC support and styling engine changes can cause issues."
+        killerReason: "Transition to RSC support and styling engine changes can cause issues.",
+        modelCompatibility: { gpt: "Risk", claude: "Risk", gemini: "Risk" },
+        keywords: ["chakra", "components", "ui library", "button", "modal", "theme"],
+        componentPreviews: {
+            "button": "#319795",
+            "modal": "#2c7a7b"
+        },
+        componentSnippets: {
+            "button": `import { ChakraProvider, Button } from '@chakra-ui/react';
+
+export default function App() {
+  return (
+    <ChakraProvider>
+      <Button colorScheme="teal">Click me</Button>
+    </ChakraProvider>
+  );
+}`,
+            "input": `import { Input } from '@chakra-ui/react'; export default () => <Input placeholder="Email" borderColor="gray.700" _hover={{ borderColor: 'gray.500' }} color="white" />;`,
+            "card": `import { Card, CardHeader, CardBody, CardFooter, Heading, Text, Button } from '@chakra-ui/react'; export default () => <Card bg="gray.900" borderColor="gray.700" border="1px" color="white"><CardHeader><Heading size="md">Notifications</Heading></CardHeader><CardBody><Text color="gray.400">You have 3 unread messages.</Text></CardBody><CardFooter><Button colorScheme="gray" width="full">Mark read</Button></CardFooter></Card>;`
+        },
+        sandpackConfig: {
+            dependencies: {
+                "@chakra-ui/react": "latest",
+                "@emotion/react": "latest",
+                "@emotion/styled": "latest",
+                "framer-motion": "latest"
+            }
+        }
     },
     {
         id: "styled-components",
@@ -537,6 +791,13 @@ export const libraries: Library[] = [
         },
         bestFor: "CSS-in-JS lovers.",
         worstFor: "Next.js App Router (setup complexity).",
-        killerReason: "Configuration in App Router is tricky for AI to get right first try."
+        killerReason: "Configuration in App Router is tricky for AI to get right first try.",
+        modelCompatibility: { gpt: "Risk", claude: "Risk", gemini: "Risk" },
+        keywords: ["styled components", "css-in-js", "styling", "theme"],
+        componentPreviews: {
+            "styled components": "#db7093",
+            "css-in-js": "#c9699c"
+        }
     }
 ];
+

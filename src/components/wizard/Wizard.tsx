@@ -3,20 +3,20 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-    LayoutDashboard,
+    Layout,
     Megaphone,
-    Building2,
-    Smartphone,
-    Zap,
-    Scale,
-    Box,
-    Ban,
+    Buildings,
+    DeviceMobile,
+    Lightning,
+    Scales,
+    Cube,
+    Prohibit,
     Play,
-    Film,
+    FilmStrip,
     Keyboard,
-    Bot,
-    ShieldAlert
-} from "lucide-react";
+    Robot,
+    ShieldWarning
+} from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { UserConstraints, SpeedLevel, AnimationLevel } from "@/types";
 
@@ -27,28 +27,28 @@ const STEPS = [
         id: "context",
         title: "What are you building?",
         options: [
-            { value: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+            { value: "dashboard", label: "Dashboard", icon: Layout },
             { value: "marketing", label: "Marketing Site", icon: Megaphone },
-            { value: "saas", label: "SaaS Platform", icon: Building2 },
-            { value: "mobile", label: "Mobile Web App", icon: Smartphone },
+            { value: "saas", label: "SaaS Platform", icon: Buildings },
+            { value: "mobile", label: "Mobile Web App", icon: DeviceMobile },
         ],
     },
     {
         id: "speed",
         title: "How critical is initial load speed?",
         options: [
-            { value: "lightweight", label: "Lightweight (Speed First)", icon: Zap },
-            { value: "standard", label: "Standard (Balanced)", icon: Scale },
-            { value: "heavy", label: "Heavy (Feature Rich)", icon: Box },
+            { value: "lightweight", label: "Lightweight (Speed First)", icon: Lightning },
+            { value: "standard", label: "Standard (Balanced)", icon: Scales },
+            { value: "heavy", label: "Heavy (Feature Rich)", icon: Cube },
         ],
     },
     {
         id: "animation",
         title: "How much animation do you need?",
         options: [
-            { value: "none", label: "None (Static)", icon: Ban },
+            { value: "none", label: "None (Static)", icon: Prohibit },
             { value: "basic", label: "Basic (Micro-interactions)", icon: Play },
-            { value: "complex", label: "Immersive (Scrollytelling)", icon: Film },
+            { value: "complex", label: "Immersive (Scrollytelling)", icon: FilmStrip },
         ],
     },
     {
@@ -56,7 +56,7 @@ const STEPS = [
         title: "How will you write the code?",
         options: [
             { value: "manual", label: "I code manually", icon: Keyboard },
-            { value: "ai", label: "I use AI 100% (Cursor/ChatGPT)", icon: Bot },
+            { value: "ai", label: "I use AI 100% (Cursor/ChatGPT)", icon: Robot },
         ],
     },
 ];
@@ -108,7 +108,7 @@ export default function Wizard() {
                         title="We filter out beta/new libraries to ensure Shadcn compatibility."
                     >
                         <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-emerald-400 text-xs font-bold shadow-lg shadow-emerald-900/20 cursor-help">
-                            <ShieldAlert className="w-3 h-3" />
+                            <ShieldWarning className="w-3 h-3" />
                             🔒 Strict Mode Active
                         </div>
                     </div>

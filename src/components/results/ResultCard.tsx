@@ -2,7 +2,7 @@
 
 import { Library } from "@/types";
 import { cn } from "@/lib/utils";
-import { Copy, ShieldCheck, AlertTriangle, XCircle, CheckCircle2, Shield } from "lucide-react";
+import { Copy, ShieldCheck, Warning, XCircle, CheckCircle, Shield, Link } from "@phosphor-icons/react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -21,7 +21,7 @@ import {
     DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Github } from "lucide-react";
+import { GithubLogo } from "@phosphor-icons/react";
 import { useState } from "react";
 
 interface ResultCardProps {
@@ -51,9 +51,9 @@ export default function ResultCard({ library, tier, variant = 'standard' }: Resu
             case "S":
                 return <ShieldCheck className="w-5 h-5 text-emerald-400" />;
             case "A":
-                return <CheckCircle2 className="w-5 h-5 text-blue-400" />;
+                return <CheckCircle className="w-5 h-5 text-blue-400" />;
             case "B":
-                return <AlertTriangle className="w-5 h-5 text-yellow-400" />;
+                return <Warning className="w-5 h-5 text-yellow-400" />;
             default:
                 return <XCircle className="w-5 h-5 text-red-400" />;
         }
@@ -80,12 +80,14 @@ export default function ResultCard({ library, tier, variant = 'standard' }: Resu
                         <TooltipProvider delayDuration={200}>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <h3 className="font-bold text-slate-100 text-lg truncate">
-                                        {library.name}
-                                    </h3>
+                                    <Link href={`/library/${library.id}`}>
+                                        <h3 className="font-bold text-slate-100 text-lg truncate hover:text-emerald-400 transition-colors cursor-pointer">
+                                            {library.name}
+                                        </h3>
+                                    </Link>
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                    <p>{library.name}</p>
+                                    <p>View {library.name} Profile</p>
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>
@@ -180,7 +182,7 @@ export default function ResultCard({ library, tier, variant = 'standard' }: Resu
                                 onClick={() => window.open(`https://github.com/SkpGit28/stackalign/issues/new?title=Hallucination+Report:+${encodeURIComponent(library.name)}&labels=hallucination`, '_blank')}
                                 className="gap-2"
                             >
-                                <Github className="w-4 h-4" />
+                                <GithubLogo className="w-4 h-4" />
                                 Report Hallucination
                             </Button>
                         </DialogFooter>

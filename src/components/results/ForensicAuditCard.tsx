@@ -3,7 +3,7 @@
 import { Library } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { AlertTriangle, ShieldCheck, ShieldAlert, ShieldX } from "lucide-react";
+import { Warning, ShieldCheck, ShieldWarning, ShieldSlash } from "@phosphor-icons/react";
 
 interface ForensicAuditCardProps {
     library: Library;
@@ -31,21 +31,21 @@ export default function ForensicAuditCard({ library }: ForensicAuditCardProps) {
                 return {
                     bgCard: "bg-yellow-950/30 border-yellow-500/20",
                     bgHeader: "bg-yellow-950/50",
-                    icon: <ShieldAlert className="w-5 h-5 text-yellow-400" />,
+                    icon: <ShieldWarning className="w-5 h-5 text-yellow-400" />,
                     textColor: "text-yellow-100"
                 };
             case "C":
                 return {
                     bgCard: "bg-red-950/30 border-red-500/20",
                     bgHeader: "bg-red-950/50",
-                    icon: <ShieldX className="w-5 h-5 text-red-400" />,
+                    icon: <ShieldSlash className="w-5 h-5 text-red-400" />,
                     textColor: "text-red-100"
                 };
             default:
                 return {
                     bgCard: "bg-slate-900/30 border-slate-700/20",
                     bgHeader: "bg-slate-900/50",
-                    icon: <AlertTriangle className="w-5 h-5 text-slate-400" />,
+                    icon: <Warning className="w-5 h-5 text-slate-400" />,
                     textColor: "text-slate-100"
                 };
         }

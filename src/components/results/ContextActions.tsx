@@ -1,7 +1,7 @@
 "use client";
 
 import { Library } from "@/types";
-import { Copy, Download, Terminal, Info } from "lucide-react";
+import { Copy, DownloadSimple, TerminalWindow, Info } from "@phosphor-icons/react";
 import { useState } from "react";
 import {
     Tooltip,
@@ -49,7 +49,7 @@ export default function ContextActions({ libraries }: ContextActionsProps) {
         <div className="w-full bg-slate-900 rounded-xl border border-slate-800 p-4 mb-8 flex flex-col md:flex-row items-center md:items-center justify-between gap-4 shadow-lg">
             <div className="flex items-center gap-3">
                 <div className="p-2 bg-slate-950 rounded-lg border border-slate-800">
-                    <Terminal className="w-5 h-5 text-emerald-400" />
+                    <TerminalWindow className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div>
                     <h3 className="text-sm font-bold text-slate-200">System Context Ready</h3>
@@ -91,7 +91,7 @@ export default function ContextActions({ libraries }: ContextActionsProps) {
                     onClick={handleDownload}
                     className="w-full md:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-all shadow-lg shadow-emerald-900/20"
                 >
-                    <Download className="w-4 h-4" />
+                    <DownloadSimple className="w-4 h-4" />
                     Download .codingagentrules
                 </button>
             </div>

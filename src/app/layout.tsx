@@ -33,13 +33,15 @@ export const metadata: Metadata = {
     },
 };
 
+import { CommandMenu } from "@/components/CommandMenu";
+
 export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" className="dark">
             <body
                 className={cn(
                     "min-h-screen bg-slate-950 text-slate-200 antialiased",
@@ -48,6 +50,7 @@ export default function RootLayout({
             >
                 <WizardProvider>
                     {children}
+                    <CommandMenu />
                 </WizardProvider>
                 <SpeedInsights />
                 <Analytics />

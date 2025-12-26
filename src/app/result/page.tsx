@@ -9,7 +9,7 @@ import ResultCard from "@/components/results/ResultCard";
 import ContextActions from "@/components/results/ContextActions";
 import SafetyToggle from "@/components/results/SafetyToggle";
 import Link from "next/link";
-import { ArrowLeft, Sparkles, Info, ChevronDown } from "lucide-react";
+import { ArrowLeft, Sparkle, Info, CaretDown, MagnifyingGlass, Command } from "@phosphor-icons/react";
 import { Card } from "@/components/ui/card";
 import {
     Accordion,
@@ -17,6 +17,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 
 function ResultContent() {
     const router = useRouter();
@@ -76,10 +77,24 @@ function ResultContent() {
                             </p>
                         </div>
                     </div>
-                    <SafetyToggle
-                        isLocked={constraints.aiReliance === 'ai'}
-                        isActive={constraints.aiReliance === 'ai'}
-                    />
+                    <div className="flex items-center gap-3">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-slate-400 hover:text-slate-100 hidden md:flex"
+                            onClick={() => window.dispatchEvent(new CustomEvent('open-command-menu'))}
+                        >
+                            <MagnifyingGlass className="w-4 h-4 mr-2" />
+                            Search
+                            <kbd className="ml-2 pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-white/10 bg-white/5 px-1.5 font-mono text-[10px] font-medium text-slate-500 opacity-100">
+                                <span className="text-xs">⌘</span>K
+                            </kbd>
+                        </Button>
+                        <SafetyToggle
+                            isLocked={constraints.aiReliance === 'ai'}
+                            isActive={constraints.aiReliance === 'ai'}
+                        />
+                    </div>
                 </div>
 
                 <ContextActions libraries={topTierLibraries} />
@@ -118,7 +133,7 @@ function ResultContent() {
 
                                 <div className="p-8">
                                     <div className="flex items-center gap-2 mb-8">
-                                        <Sparkles className="w-5 h-5 text-emerald-400" />
+                                        <Sparkle className="w-5 h-5 text-emerald-400" />
                                         <h2 className="text-xl font-medium tracking-tight text-slate-100">
                                             Your Optimized Stack
                                         </h2>
